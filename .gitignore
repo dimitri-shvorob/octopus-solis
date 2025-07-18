@@ -1,0 +1,4 @@
+__pycache__/
+secrets.json
+octopus_account_info.json
+ruff.toml

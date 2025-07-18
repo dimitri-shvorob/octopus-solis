@@ -1,0 +1,32 @@
+{
+	"electric_import": [
+		{
+			"effective_from": "1999-01-01",
+			"effective_to": "2024-06-01",
+			"standing_charge": 37.65,
+			"charge_per_kwh": 24.82
+		},
+		{
+			"effective_from": "2024-06-02",
+			"effective_to": "2050-01-01",
+			"standing_charge": 42.69,
+			"charge_per_kwh": 25.22
+		}
+	],
+	"electric_export": [
+		{
+			"effective_from": "1999-01-01",
+			"effective_to": "2050-01-01",
+			"standing_charge": 0.0,
+			"charge_per_kwh": -15.0
+		}
+	],
+	"gas": [
+		{
+			"effective_from": "1999-01-01",
+			"effective_to": "2050-01-01",
+			"standing_charge": 28.52,
+			"charge_per_kwh": 6.1
+		}
+	]
+}
