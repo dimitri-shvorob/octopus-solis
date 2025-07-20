@@ -3,14 +3,14 @@
 		{
 			"effective_from": "1999-01-01",
 			"effective_to": "2024-06-01",
-			"standing_charge": 37.65,
-			"charge_per_kwh": 24.82
+			"standing_charge": 0.3765,
+			"charge_per_kwh": 0.2482
 		},
 		{
 			"effective_from": "2024-06-02",
 			"effective_to": "2050-01-01",
-			"standing_charge": 42.69,
-			"charge_per_kwh": 25.22
+			"standing_charge": 0.4269,
+			"charge_per_kwh": 0.2522
 		}
 	],
 	"electric_export": [
@@ -18,15 +18,15 @@
 			"effective_from": "1999-01-01",
 			"effective_to": "2050-01-01",
 			"standing_charge": 0.0,
-			"charge_per_kwh": -15.0
+			"charge_per_kwh": 0.15
 		}
 	],
 	"gas": [
 		{
 			"effective_from": "1999-01-01",
 			"effective_to": "2050-01-01",
-			"standing_charge": 28.52,
-			"charge_per_kwh": 6.1
+			"standing_charge": 0.2852,
+			"charge_per_kwh": 0.061
 		}
 	]
 }
