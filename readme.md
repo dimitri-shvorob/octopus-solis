@@ -2,6 +2,7 @@ I live in London, buy electricity and gas from Octopus Energy, and have solar pa
 I ask:
 * How much have solar panels saved me to date?
 * Is getting a battery worthwhile?
+
 Via its API, Octopus Energy provides smart-meter usage data for 30-minute intervals. My panels
 come with SolisCloud app, which does not seem to allow any automatic data collection (please
 let me know if that is no longer the case) so I have to collect data manually, and enter it in "data solis.csv".
@@ -11,7 +12,22 @@ With these two datasets, I can calculate
 * how much I saved on un-imported electricity, i.e. electricity consumed out of own generation.   
 
 Attached code 
-* gets usage data from Octopus API (saving daily Parquet files to a subfolder)
+* gets usage data from Octopus API, saving daily Parquet files to a subfolder
 * combines Octopus and Solis data
 * makes additional calculations
-* outputs a Parquet file to feed a simple PowerBI dashboard 
+* produced output in CSV and Parquet formats 
+
+You can use the code to fetch own Octopus usage data. 
+* Get your Octopus account number, starting with A. 
+* Sign up for Octopus Energy developer account and obtain your API key.
+* Enter the account number in `secrets SAMPLE.json`, renaming the file to `secrets.json`.
+* Run script `1 get octopus_account_info.py`, after modifying PATH.
+* Examine `octopus_account_info.json` and locate your meters' MPAN/MPRN codes and serial numbers.
+* Modify API endpoint URLS - embedding MPAN/MPRN codes and serial numbers - in `secrets.json`.   
+* Modify `octopus_tariffs.json` to reflect your tariff history. 
+* Run `2 get octopus usage data.py`, after modifying PATH and the date range around line 13.
+* Modify `data solis.csv`, recording generation data or zeroes.
+* Run `3 process data.py`, after modifying PATH.
+* Examine `OUTPUT data octopus and solis wide.csv`
+
+(Note: For me, `octopus_account_info.json` has two meters for both electricity and gas, although I have only one meter for each. I picked the right ones to use by trial and error).
