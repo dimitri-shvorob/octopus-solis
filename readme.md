@@ -5,7 +5,7 @@ I ask:
 
 Via its API, Octopus Energy provides smart-meter usage data for 30-minute intervals. My panels
 come with SolisCloud app, which does not seem to allow any automatic data collection (please
-let me know if that is no longer the case) so I have to collect data manually, and enter it in "data solis.csv".
+let me know if that is no longer the case) so I have to collect data manually, and enter it in `data solis.csv`.
 
 With these two datasets, I can calculate 
 * how much I earned on exported electricity. (Well, Octopus already gives me this info in its app).
@@ -15,19 +15,21 @@ Attached code
 * gets usage data from Octopus API, saving daily Parquet files to a subfolder
 * combines Octopus and Solis data
 * makes additional calculations
-* produced output in CSV and Parquet formats 
+* saves output to CSV and Parquet formats 
 
-You can use the code to fetch own Octopus usage data. 
+You can use the code to fetch own Octopus usage data and, optionally, combine it with daily generation data from a different source. 
+* Delete contents of `data octopus` folder. (Nah, I don't really care about sharing own energy-usage data with the world). 
 * Get your Octopus account number, starting with A. 
-* Sign up for Octopus Energy developer account and obtain your API key.
+* Sign up for Octopus developer account and obtain your API key.
 * Enter the account number in `secrets SAMPLE.json`, renaming the file to `secrets.json`.
 * Run script `1 get octopus_account_info.py`, after modifying PATH.
 * Examine `octopus_account_info.json` and locate your meters' MPAN/MPRN codes and serial numbers.
-* Modify API endpoint URLS - embedding MPAN/MPRN codes and serial numbers - in `secrets.json`.   
+* Modify API endpoint URLS - embedding the MPAN/MPRN codes and serial numbers - in `secrets.json`.   
 * Modify `octopus_tariffs.json` to reflect your tariff history. 
-* Run `2 get octopus usage data.py`, after modifying PATH and the date range around line 13.
+* Run `2 get octopus usage data.py`, modifying PATH and the date range around line 13.
 * Modify `data solis.csv`, recording generation data or zeroes.
-* Run `3 process data.py`, after modifying PATH.
+* Run `3 process data.py`, after modifying PATH. The script will do daily calculations starting from the earliest date with Octopus data and ending with the earlier
+of the latest date with Octopus data and the latest date with Solis data.  
 * Examine `OUTPUT data octopus and solis wide.csv`
 
 (Note: For me, `octopus_account_info.json` has two meters for both electricity and gas, although I have only one meter for each. I picked the right ones to use by trial and error).
