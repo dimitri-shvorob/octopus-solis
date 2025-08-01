@@ -3,7 +3,7 @@ from pathlib import Path
 
 import requests
 
-PATH = Path(r"C:\Users\dimit\Documents\GitHub\octopus")
+PATH = Path(r"C:\Users\dimit\Documents\GitHub\octopus-solis")
 
 with Path.open(PATH / "secrets.json") as f:
     secrets = json.load(f)

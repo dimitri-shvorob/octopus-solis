@@ -102,6 +102,17 @@ df4 = (
         + pl.col.value_gbp_electric_export
     )
     .with_columns(
+        value_gbp_electric_savings_battery_max=(
+            pl.col.charge_per_kwh_electric_import
+            - pl.col.charge_per_kwh_electric_export
+        )
+        * pl.when(
+            pl.col.value_kwh_electric_import < pl.col.value_kwh_electric_generation
+        )
+        .then(pl.col.value_kwh_electric_import)
+        .otherwise(pl.col.value_kwh_electric_generation)
+    )
+    .with_columns(
         month=pl.col("date").dt.truncate("1mo"),
         month_short=pl.col("date").dt.month(),
         year=pl.col("date").dt.year(),
@@ -111,6 +122,8 @@ df4 = (
         cum_value_gbp_electric_export=pl.col.value_gbp_electric_export.cum_sum(),
         cum_value_gbp_electric_import_avoided=pl.col.value_gbp_electric_import_avoided.cum_sum(),
         cum_value_gbp_electric_savings=pl.col.value_gbp_electric_savings.cum_sum(),
+        cum_value_gbp_electric_savings_battery_max=pl.col.value_gbp_electric_savings_battery_max.cum_sum(),
     )
 )
+df4.write_csv(PATH / "OUTPUT data octopus and solis wide.csv")
 df4.write_parquet(PATH / "OUTPUT data octopus and solis wide.parquet")

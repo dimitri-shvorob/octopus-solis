@@ -11,7 +11,7 @@ with Path.open(PATH / "secrets.json") as f:
     secrets = json.load(f)
 
 dates = pl.date_range(
-    start=datetime.date(2025, 7, 17), end=datetime.date(2025, 7, 18), eager=True
+    start=datetime.date(2025, 7, 17), end=datetime.date(2025, 7, 30), eager=True
 )
 
 for date in dates:
