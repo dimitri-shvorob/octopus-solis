@@ -33,20 +33,14 @@ df1 = (
     .sum()
 )
 
-# date/type spine
-max_date_octopus = df1["date"].max()
-max_date_solis = ds["date"].max()
-print(f"max date octopus: {max_date_octopus}")
-print(f"max date solis: {max_date_solis}")
-max_date = min(max_date_octopus, max_date_solis)
+# convert values to values kwh
+GAS_KWH_PER_UNIT = 11.13541
+df1 = df1.with_columns(value_kwh = pl.when(pl.col.type == "gas").then(pl.col.value*pl.lit(GAS_KWH_PER_UNIT)).otherwise(pl.col.value)).drop("value")
 
-dg1 = pl.DataFrame(
-    data=pl.date_range(start=df1["date"].min(), end=max_date, eager=True),
-    schema=["date"],
-)
-dg2 = pl.DataFrame(data=["electric_import", "electric_export", "gas"], schema=["type"])
+# date/type spine
 df2 = (
-    dg1.join(dg2, how="cross")
+    pl.DataFrame(data=["electric_import", "electric_export", "gas"], schema=["type"])
+    .join(pl.DataFrame(data=pl.date_range(start=df1["date"].min(), end=df1["date"].max(), eager=True), schema=["date"]), how="cross")
     .join(df1, on=["date", "type"], how="left")
     .sort("type", "date")
 )
@@ -68,12 +62,6 @@ df3 = (
         value_gbp=pl.col.standing_charge + pl.col.value_kwh * pl.col.charge_per_kwh
     )
 )
-
-# check for gaps - do get one!
-dx = df3.filter(pl.col.value_kwh.is_null())
-# assert len(dx) == 0  # noqa: ERA001
-
-df3.write_parquet(PATH / "OUTPUT data octopus tall.parquet")
 
 # pivot and link up solis data
 df4 = (

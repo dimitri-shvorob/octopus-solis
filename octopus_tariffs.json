@@ -8,9 +8,15 @@
 		},
 		{
 			"effective_from": "2024-06-02",
-			"effective_to": "2050-01-01",
+			"effective_to": "2025-03-31",
 			"standing_charge": 0.4269,
 			"charge_per_kwh": 0.2522
+		},
+		{
+			"effective_from": "2025-04-01",
+			"effective_to": "2050-01-01",
+			"standing_charge": 0.4076,
+			"charge_per_kwh": 0.2393
 		}
 	],
 	"electric_export": [
@@ -24,9 +30,15 @@
 	"gas": [
 		{
 			"effective_from": "1999-01-01",
-			"effective_to": "2050-01-01",
+			"effective_to": "2025-03-31",
 			"standing_charge": 0.2852,
 			"charge_per_kwh": 0.061
+		},
+		{
+			"effective_from": "2025-04-01",
+			"effective_to": "2050-01-01",
+			"standing_charge": 0.2783,
+			"charge_per_kwh": 0.0612
 		}
 	]
 }
