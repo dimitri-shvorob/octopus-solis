@@ -5,17 +5,21 @@ import polars as pl
 
 PATH = Path(r"C:\Users\dimit\Documents\GitHub\octopus-solis")
 
-# octopus tariffs
+# octopus tariffs - adjusted for VAT
 with Path.open(PATH / "octopus_tariffs.json") as f:
     tariffs = json.load(f)
 
 dts = []
 for key, value in tariffs.items():
-    dt = pl.from_dicts(value).with_columns(
+    dt = ( 
+        pl.from_dicts(value).with_columns(
         type=pl.lit(key),
         effective_from=pl.col("effective_from").str.to_date(),
         effective_to=pl.col("effective_to").str.to_date(),
     )
+    .with_columns(charge_per_kwh = pl.when(pl.col.type == "electric_export").then(pl.col.charge_per_kwh).otherwise(1.05*pl.col.charge_per_kwh))
+    .with_columns(standing_charge = 1.05*pl.col.standing_charge)
+    )    
     dts.append(dt)
 dt = pl.concat(dts, how="diagonal").sort("type", "effective_from")
 
