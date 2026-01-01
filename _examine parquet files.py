@@ -1,9 +1,15 @@
-import json
 from pathlib import Path
 import pandas as pd
-import polars as pl
 
-PATH = Path(r"C:\Users\dimit\Documents\GitHub\octopus-solis")
+PATH = Path(r"C:\Users\dimit\Documents\GitHub\octopus-solis\data octopus")
+ff = PATH.glob(".parquet")
+dfs = []
+for f in ff:
+    df = pd.read_parquet(f) 
+    dfs.append(df)
+    
+    
+    
 
 # octopus tariffs - adjusted for VAT
 with Path.open(PATH / "octopus_tariffs.json") as f:
@@ -29,16 +35,8 @@ ds = pl.read_csv(PATH / "data solis.csv", try_parse_dates=True).drop_nulls(
 )
 
 # octopus usage
-# some files have field value, others have field value_kwh (wrong)
-# use pandas to read and combine them
-ff = (PATH / "data octopus").glob("*.parquet")
-dfs = []
-for f in ff:
-    df = pd.read_parquet(f).rename(columns = {"valu_kwh": "value"}) 
-    dfs.append(df)
-df = pd.concat(dfs)
 df1 = (
-    pl.from_pandas(df)
+    pl.read_parquet(PATH / "data octopus" / "*.parquet")
     .with_columns(date=pl.col("start_time").dt.date())
     .drop("start_time")
     .group_by("type", "date")
